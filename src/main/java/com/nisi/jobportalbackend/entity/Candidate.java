@@ -17,7 +17,7 @@ public class Candidate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String skills;
-    String resumeLink;
+    private Long id;
+    private String skills;
+    private String resumeLink;
 }

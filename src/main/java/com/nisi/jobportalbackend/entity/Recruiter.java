@@ -17,7 +17,7 @@ public class Recruiter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String companyName;
-    String designation;
+    private Long id;
+    private String companyName;
+    private String designation;
 }

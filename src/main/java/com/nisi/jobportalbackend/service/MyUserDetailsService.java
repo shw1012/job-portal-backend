@@ -6,25 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService  {
+public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepo userRepo;
 
-    @Autowired
-    private BCryptPasswordEncoder encoder;
-
-    public User registerUser(User user){
-
-        if(userRepo.findByEmail(user.getEmail()).isPresent()){
-            throw new RuntimeException("Email already exists");
-        }
-        user.setPassword(encoder.encode(user.getPassword()));
-        return userRepo.save(user);
-
+        @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
+        System.out.println(email);
+        return user;
     }
 }
