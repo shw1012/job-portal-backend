@@ -1,9 +1,12 @@
 package com.nisi.jobportalbackend.controller;
 
-import com.nisi.jobportalbackend.dto.LoginRequest;
+import com.nisi.jobportalbackend.dto.CreatedUserRequestDto;
+import com.nisi.jobportalbackend.dto.CreatedUserResponseDto;
+import com.nisi.jobportalbackend.dto.LoginRequestDto;
 import com.nisi.jobportalbackend.entity.User;
 import com.nisi.jobportalbackend.service.JwtService;
 import com.nisi.jobportalbackend.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +31,15 @@ public class AuthController {
     private JwtService jwtService;
 
     @PostMapping("register")
-    public ResponseEntity<User> authRegisterUser(@RequestBody User user){
+    public ResponseEntity<CreatedUserResponseDto> authRegisterUser(@Valid @RequestBody CreatedUserRequestDto userReqDto){
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(service.registerUser(user));
+                .body(service.registerUser(userReqDto));
     }
 
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<String> login(@Valid @RequestBody LoginRequestDto loginRequest) {
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),

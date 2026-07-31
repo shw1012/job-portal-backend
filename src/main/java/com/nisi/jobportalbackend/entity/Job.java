@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -14,18 +16,26 @@ import java.util.Date;
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  //@GeneratedValue tells the database to automatically generate the id value every time a new record is inserted.
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
     private String jobRole;
     private String jobDescription;
     private String location;
     private Long annualIncome;
-    private Date deadline;
+    private LocalDateTime deadline;
     private String perks;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String jobType;
+
     @ManyToOne
     @JoinColumn(name="recruiter_id")
     private User recruiter;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Date createdAt;
+
+    private LocalDateTime createdAt;
+
+
+//    This runs automatically right before JPA inserts the row — no manual code needed in your service layer.
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
 }

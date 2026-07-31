@@ -32,7 +32,7 @@ public class User implements UserDetails {
     private String email;
 
     @JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
-//    WRITE (deserialize) → password IS read from request body ✅
+//WRITE (deserialize) → password IS read from request body ✅
 //READ (serialize)    → password is NOT included in response ✅
     private String password;
 
